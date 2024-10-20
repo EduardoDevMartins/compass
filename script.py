@@ -36,8 +36,8 @@ def check_nginx_status():
         with open(OFFLINE_LOG, "a") as offline_file:
             offline_file.write(f"{current_time} - {service} - OFFLINE - Erro ao verificar o status do serviço\n")
 
-# Loop infinito para executar a cada 5 minutos
+# Loop infinito para executar a cada 20 segundos
 while True:
     check_nginx_status()
-    # Aguarda 300 segundos (5 minutos)
-    time.sleep(300)
+    # Aguarda 20 segundos
+    time.sleep(20)
