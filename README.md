@@ -39,7 +39,7 @@ Como Usar
 
 3. Executar o Script:
     ```bash
-    python nginx_status_checker.py
+    python3 script.py
     ```
 
 O script irá verificar o status do servidor Nginx e registrar os logs de status a cada 20 segundos.
