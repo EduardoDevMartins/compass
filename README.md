@@ -1,60 +1,58 @@
 
+Nginx Server Status Monitor
 
-Nginx Server Status Checker
-
-Este script em Python verifica periodicamente o status de um servidor Nginx e gera logs de status a cada 5 minutos. Ele foi projetado para ajudar na supervisão de servidores web, registrando informações sobre a disponibilidade e saúde do Nginx para monitoramento e diagnóstico.
+Este script em Python monitora o status do servidor Nginx, registrando o status atual do serviço em arquivos de log. Ele é executado continuamente, verificando o status do Nginx a cada 20 segundos e gerando logs separadamente para status "ONLINE" e "OFFLINE".
 
 Funcionalidades
 
-- Verifica se o servidor Nginx está em funcionamento.
-- Relata logs de status a cada 5 minutos.
-- Registra mensagens de erro caso o servidor esteja offline ou inoperante.
+- Verifica periodicamente o status do serviço Nginx.
+- Registra o status em arquivos de log separados para monitoramento fácil.
+- Permite configurar a frequência de verificação, com a opção padrão de 20 segundos.
 
-Requisitos
+Configuração
 
-- **Python 3.6+**
-- Bibliotecas: `requests` (para monitorar status) e `logging` (para gerar logs)
+1. Diretórios de Log:
+   - O script utiliza diretórios específicos para armazenar os logs de status. No código, você pode definir o caminho onde deseja salvar esses logs:
+   ```python
+   LOG_DIR = "/caminho/para/seu/diretorio/logs"
+   ONLINE_LOG = os.path.join(LOG_DIR, "nginx_online.log")
+   OFFLINE_LOG = os.path.join(LOG_DIR, "nginx_offline.log")
+   ```
+   - Substitua `"/caminho/para/seu/diretorio/logs"` pelo caminho onde deseja salvar os logs.
 
-Instalação das Dependências
-
-Para instalar as dependências necessárias, execute:
-
-```bash
-pip install requests
-```
+2. Permissões:
+   - Verifique se você possui permissões de escrita no diretório de log especificado.
+   - O script utiliza `systemctl` para verificar o status do Nginx. Certifique-se de ter permissões de execução para esse comando.
 
 Como Usar
 
 1. Clone o Repositório:
-    ```bash
-    git clone https://github.com/seu-usuario/nginx-status-checker.git
-    cd nginx-status-checker
-    ```
+   ```bash
+   git clone https://github.com/seu-usuario/nginx-status-checker.git
+   cd nginx-status-checker
+   ```
 
-2. Configuração:
-   - No código, defina o endereço do servidor Nginx que você deseja monitorar. Exemplo:
-     ```python
-     SERVER_URL = "http://localhost"  # Substitua pelo IP ou domínio do seu servidor
-     ```
+2. Execute o Script:
+   ```bash
+   python3 script.py
+   ```
+   - O script será executado continuamente e registrará o status do Nginx a cada 20 segundos nos arquivos de log configurados.
 
-3. Executar o Script:
-    ```bash
-    python3 script.py
-    ```
+Logs de Status
 
-O script irá verificar o status do servidor Nginx e registrar os logs de status a cada 20 segundos.
+Os logs serão salvos em dois arquivos separados:
+- **nginx_online.log**: contém entradas quando o serviço está em funcionamento.
+- **nginx_offline.log**: contém entradas para status "OFFLINE" ou erros ao tentar verificar o status.
 
-Exemplo de Log de Status
-
-Cada verificação gera um log indicando se o servidor está operacional. Exemplo de log:
+Exemplo de Log
 
 ```
-2024-11-01 12:00:00 - INFO - Servidor Nginx está funcionando normalmente.
-2024-11-01 12:05:00 - ERROR - Falha ao conectar ao servidor Nginx.
+2024-11-01 12:00:00 - nginx - ONLINE - O serviço está rodando
+2024-11-01 12:05:00 - nginx - OFFLINE - O serviço não está rodando
+2024-11-01 12:10:00 - nginx - OFFLINE - Erro ao verificar o status do serviço
 ```
-
-
 
 Contribuições
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma *issue* ou enviar um *pull request*.
+Contribuições são bem-vindas! Abra uma *issue* ou envie um *pull request* para melhorias.
+
